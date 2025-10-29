@@ -16,8 +16,10 @@ type GitHubRes = {
 const res: GitHubRes = await(await fetch(API_URL)).json();
 
 for (const item of res) {
+	console.log(`Installing: ${item.name}`);
 	const cmd = new Deno.Command("deno", {
 		args: ["install", "-g", "-f", "-n", item.name.replaceAll(".ts", ""), "-A", item.download_url]
 	});
-	await cmd.output();
+	const out = await cmd.output();
+	console.log(new TextDecoder().decode(out.stdout));
 }
