@@ -7,7 +7,7 @@ All of the following utilities require [Deno](deno.com) to be installed on your 
 To install all utilities from this package, run:
 
 ```bash
-
+deno run -A "https://raw.githubusercontent.com/Aureliona1/MicroUtils/refs/heads/main/installer.ts"
 ```
 
 ## Exportify
