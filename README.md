@@ -44,6 +44,14 @@ You can install hexify with:
 deno install -f -g -n hexify -r "https://raw.githubusercontent.com/Aureliona1/MicroUtils/refs/heads/main/src/hexify.ts"
 ```
 
+Example:
+
+```bash
+hexify Hello
+```
+
+Prints: `0x48656c6c6f`.
+
 ## Tiny Daemon
 
 TMON is a tiny daemon program that can watch the file system and run programs when it detects an update. It is controlled by a JSON config file that must be present in the directory that TMON is run in.
@@ -65,8 +73,32 @@ The JSON must follow this object schema:
 
 For each task, if a `watch` parameter isn't provided, the task is considered a "one-off" task and will be run once before terminating.
 
+The path or paths provided in `watch` can be globs.
+
 TMON can be installed with:
 
 ```bash
 deno install -f -g -n tmon -A -r "https://raw.githubusercontent.com/Aureliona1/MicroUtils/refs/heads/main/src/tmon.ts"
+```
+
+Run TMON with:
+
+```bash
+tmon <task_name>
+```
+
+### Example Initialiser
+
+A sample script is also provided to initialise a template TMON config file in the current directory.
+
+This can be installed with:
+
+```bash
+deno install -f -g -n tmon_init -A -r "https://raw.githubusercontent.com/Aureliona1/MicroUtils/refs/heads/main/src/tmon_init.ts
+```
+
+And run with:
+
+```bash
+tmon_init
 ```
