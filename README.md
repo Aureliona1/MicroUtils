@@ -10,6 +10,12 @@ To install all utilities from this package, run:
 deno run -A "https://raw.githubusercontent.com/Aureliona1/MicroUtils/refs/heads/main/installer.ts"
 ```
 
+To uninstall all utilities from your system, run:
+
+```bash
+deno run -A "https://raw.githubusercontent.com/Aureliona1/MicroUtils/refs/heads/main/uninstaller.ts"
+```
+
 ## Exportify
 
 Automatically and recursively check through all subdirectories of the supplied directory to find TypeScript files and add them to a `mod.ts` file.
