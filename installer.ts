@@ -17,7 +17,7 @@ const res: GitHubRes = await(await fetch(API_URL)).json();
 
 for (const item of res) {
 	const cmd = new Deno.Command("deno", {
-		args: ["install", "-g", "-f", "-n", item.name.replaceAll(".ts", ""), "-A", item.download_url]
+		args: ["install", "-g", "-f", "-n", item.name.replaceAll(".ts", ""), "-A", "-r", item.download_url]
 	});
 	const proc = cmd.spawn();
 	await proc.output();

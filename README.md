@@ -52,7 +52,7 @@ The JSON must follow this object schema:
 
 ```ts
 {
-	"version": string;
+	"version": "1.0.0"; // Version is currently ignored by TMON, this can therefore hold any value. But must always be present.
 	"tasks": Record<string,
 		{
 			"desc"?: string;
@@ -62,6 +62,8 @@ The JSON must follow this object schema:
 	>;
 };
 ```
+
+For each task, if a `watch` parameter isn't provided, the task is considered a "one-off" task and will be run once before terminating.
 
 TMON can be installed with:
 
