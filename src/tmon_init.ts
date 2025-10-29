@@ -18,4 +18,4 @@ const templateTMON = {
 	}
 };
 
-await Deno.writeTextFile("tmon.json", JSON.stringify(templateTMON));
+await Deno.writeTextFile("tmon.json", JSON.stringify(templateTMON, undefined, 4));
