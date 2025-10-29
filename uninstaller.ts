@@ -17,7 +17,9 @@ const res: GitHubRes = await(await fetch(API_URL)).json();
 
 for (const item of res) {
 	const cmd = new Deno.Command("deno", {
-		args: ["uninstall", "-g", item.name.replaceAll(".ts", "")]
+		args: ["uninstall", "-g", item.name.replaceAll(".ts", "")],
+		stdout: "inherit",
+		stderr: "inherit"
 	});
 	const proc = cmd.spawn();
 	await proc.output();
