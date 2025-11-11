@@ -3,7 +3,7 @@ import { expandGlob } from "jsr:@std/fs@1.0.19";
 
 // Lib
 
-type Config = {
+export type Config = {
 	version: string;
 	tasks: Record<
 		string,
