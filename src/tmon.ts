@@ -108,7 +108,7 @@ if (!task.watch) {
 }
 
 const watcher = Deno.watchFs("./");
-clog(`Watching paths: ${task.watch}`, "Log", "TMON");
+clog(`Watching paths: ${(typeof task.watch == "string" ? [task.watch] : task.watch).join(", ")}`, "Log", "TMON");
 await run();
 // Watcher loop
 
