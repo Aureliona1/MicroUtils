@@ -1,4 +1,4 @@
-import { regexInput } from "@aurellis/helpers";
+import { regexInput } from "jsr:@aurellis/helpers@1.4.3";
 
 async function getRelations(addr: string): Promise<string[]> {
 	if (!/^https?:\/\//.test(addr)) {
