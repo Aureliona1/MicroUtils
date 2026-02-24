@@ -103,18 +103,18 @@ And run with:
 tmon_init
 ```
 
-### Web Relation Finder
+### Web Link Scraper
 
 A tool to scrape web pages and return a list of all mentioned link/urls in the page.
 
 This can be installed with:
 
 ```bash
-deno install -f -g -n web_relations -A -r "https://raw.githubusercontent.com/Aureliona1/MicroUtils/refs/heads/main/src/web_relations.ts"
+deno install -f -g -n get_links -A -r "https://raw.githubusercontent.com/Aureliona1/MicroUtils/refs/heads/main/src/get_links.ts"
 ```
 
 And run with:
 
 ```bash
-web_relations <url>
+get_links <url>
 ```
