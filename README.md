@@ -94,7 +94,7 @@ A sample script is also provided to initialise a template TMON config file in th
 This can be installed with:
 
 ```bash
-deno install -f -g -n tmon_init -A -r "https://raw.githubusercontent.com/Aureliona1/MicroUtils/refs/heads/main/src/tmon_init.ts
+deno install -f -g -n tmon_init -A -r "https://raw.githubusercontent.com/Aureliona1/MicroUtils/refs/heads/main/src/tmon_init.ts"
 ```
 
 And run with:
@@ -110,7 +110,7 @@ A tool to scrape web pages and return a list of all mentioned link/urls in the p
 This can be installed with:
 
 ```bash
-deno install -f -g -n web_relations -A -r "https://raw.githubusercontent.com/Aureliona1/MicroUtils/refs/heads/main/src/web_relations.ts
+deno install -f -g -n web_relations -A -r "https://raw.githubusercontent.com/Aureliona1/MicroUtils/refs/heads/main/src/web_relations.ts"
 ```
 
 And run with:
