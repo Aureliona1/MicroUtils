@@ -118,3 +118,19 @@ And run with:
 ```bash
 get_links <url>
 ```
+
+### Execute for subs
+
+A tool that recursively runs a command in all subdirectories of the cwd.
+
+This can be installed with:
+
+```bash
+deno install -f -g -n execute_for_subs -A -r "https://raw.githubusercontent.com/Aureliona1/MicroUtils/refs/heads/main/src/execute_for_subs.ts
+```
+
+And run with:
+
+```bash
+execute_for_subs <command>
+```
