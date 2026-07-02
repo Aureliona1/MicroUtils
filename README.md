@@ -103,7 +103,7 @@ And run with:
 tmon_init
 ```
 
-### Web Link Scraper
+## Web Link Scraper
 
 A tool to scrape web pages and return a list of all mentioned link/urls in the page.
 
@@ -119,7 +119,7 @@ And run with:
 get_links <url>
 ```
 
-### Execute for subs
+## Execute for subs
 
 A tool that recursively runs a command in all subdirectories of the cwd.
 
