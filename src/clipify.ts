@@ -56,7 +56,11 @@ async function trimMedia(fileName: string, dest: string, start: number = 0, end?
 	clog(`✅ Trimmed successfully`, "Log", trimMedia.name);
 }
 
-async function clipVideo(fileName: string, timestamps: number[], destNames: (i: number) => string = i => path.join(path.dirname(fileName), path.basename(fileName, path.extname(fileName)), i + path.extname(fileName))): Promise<void> {
+async function clipVideo(
+	fileName: string,
+	timestamps: number[],
+	destNames: (i: number) => string = i => path.join(path.dirname(fileName), path.basename(fileName, path.extname(fileName)), path.basename(fileName, path.extname(fileName)) + "_" + i + path.extname(fileName))
+): Promise<void> {
 	let previous = 0;
 	await ensureDir(path.join(path.dirname(fileName), path.basename(fileName, path.extname(fileName))));
 	for (let i = 0; i < timestamps.length + 1; i++) {
@@ -85,5 +89,6 @@ const timestamps = timestampFile
 	.replaceAll("\n", "")
 	.replaceAll(" ", "")
 	.split(",")
+	.filter(x => x.length)
 	.map(x => Number(x));
 await clipVideo(filePath, timestamps);
