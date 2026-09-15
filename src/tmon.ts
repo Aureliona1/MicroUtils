@@ -1,4 +1,4 @@
-import { clog } from "jsr:@aurellis/helpers@1.4.3";
+import { clog } from "jsr:@aurellis/helpers@1.6.2";
 import { expandGlob } from "jsr:@std/fs@1.0.19";
 
 // Lib

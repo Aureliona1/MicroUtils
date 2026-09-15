@@ -1,4 +1,4 @@
-import { clog, ensureFile } from "jsr:@aurellis/helpers@^1.4.3";
+import { clog, ensureFile } from "jsr:@aurellis/helpers@1.6.2";
 import { Config } from "./tmon.ts";
 
 const args = Deno.args;

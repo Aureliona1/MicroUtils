@@ -126,11 +126,27 @@ A tool that recursively runs a command in all subdirectories of the cwd.
 This can be installed with:
 
 ```bash
-deno install -f -g -n execute_for_subs -A -r "https://raw.githubusercontent.com/Aureliona1/MicroUtils/refs/heads/main/src/execute_for_subs.ts
+deno install -f -g -n execute_for_subs -A -r "https://raw.githubusercontent.com/Aureliona1/MicroUtils/refs/heads/main/src/execute_for_subs.ts"
 ```
 
 And run with:
 
 ```bash
 execute_for_subs <command>
+```
+
+## Clipify
+
+A tool that splits a video or other media by timestamps. Requires ffmpeg to be installed and working in PATH.
+
+Install this tool with:
+
+```bash
+deno install -f -g -n clipify -A -r "https://raw.githubusercontent.com/Aureliona1/MicroUtils/refs/heads/main/src/clipify.ts"
+```
+
+And run with:
+
+```bash
+clipify <media file>
 ```

@@ -1,5 +1,5 @@
 // deno-lint-ignore no-import-prefix
-import { clog, pathAccessible, pathAccessibleSync } from "jsr:@aurellis/helpers@1.4.3";
+import { clog, pathAccessible, pathAccessibleSync } from "jsr:@aurellis/helpers@1.6.2";
 
 if (Deno.args.length === 0) {
 	clog("Please provide a location to export from...", "Warning");
