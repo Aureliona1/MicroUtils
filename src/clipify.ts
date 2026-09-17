@@ -49,13 +49,8 @@ async function trimMedia(fileName: string, dest: string, start: number | string 
 		Deno.exit(1);
 	}
 	clog(`🎬 Trimming ${fileName} from ${formattedStart} to ${formattedEnd}...`, "Log", trimMedia.name);
-	const args = ["-y", "-ss", formattedStart];
 
-	if (end !== undefined) {
-		args.push("-to", formattedEnd);
-	}
-
-	args.push("-i", fileName, "-c", "copy", dest);
+	const args = ["-y", "-ss", formattedStart, "-to", formattedEnd, "-i", fileName, "-c:v", "libx264", "-crf", "18", "-preset", "fast", "-c:a", "aac", "-b:a", "192k", dest];
 
 	const proc = makeffmpeg(args);
 	const code = await proc.output();
