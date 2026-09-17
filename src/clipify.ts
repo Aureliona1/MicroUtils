@@ -35,13 +35,18 @@ async function pollDuration(fileName: string): Promise<number> {
  * @param start The start of the trimmed section (in seconds)
  * @param end The end of the trimmed section (in seconds)
  */
-async function trimMedia(fileName: string, dest: string, start: number = 0, end?: number): Promise<void> {
+async function trimMedia(fileName: string, dest: string, start: number | string = 0, end?: number | string): Promise<void> {
 	end ??= await pollDuration(fileName);
-	clog(`🎬 Trimming ${fileName} from ${s2time(start)} to ${s2time(end)}...`, "Log", trimMedia.name);
-	const args = ["-y", "-ss", s2time(start)];
+	const formattedStart = typeof start === "number" ? s2time(start) : start;
+	const formattedEnd = typeof end === "number" ? s2time(end) : end;
+	const regex = /^\d+:\d+:\d+(?:\.\d+)?$/;
+	if (!regex.test(formattedStart)) throw new Error(`${formattedStart} does not match expected format, should be h:m:s`);
+	if (!regex.test(formattedEnd)) throw new Error(`${formattedEnd} does not match expected format, should be h:m:s`);
+	clog(`🎬 Trimming ${fileName} from ${formattedStart} to ${formattedEnd}...`, "Log", trimMedia.name);
+	const args = ["-y", "-ss", formattedStart];
 
 	if (end !== undefined) {
-		args.push("-to", s2time(end));
+		args.push("-to", formattedEnd);
 	}
 
 	args.push("-i", fileName, "-c", "copy", dest);
@@ -58,10 +63,10 @@ async function trimMedia(fileName: string, dest: string, start: number = 0, end?
 
 async function clipVideo(
 	fileName: string,
-	timestamps: number[],
+	timestamps: (number | string)[],
 	destNames: (i: number) => string = i => path.join(path.dirname(fileName), path.basename(fileName, path.extname(fileName)), path.basename(fileName, path.extname(fileName)) + "_" + i + path.extname(fileName))
 ): Promise<void> {
-	let previous = 0;
+	let previous: string | number = 0;
 	await ensureDir(path.join(path.dirname(fileName), path.basename(fileName, path.extname(fileName))));
 	for (let i = 0; i < timestamps.length + 1; i++) {
 		const end = timestamps[i];
@@ -77,9 +82,11 @@ if (!Deno.args.length) {
 	clog("For example:");
 	clog("video.mp4 -> The source video");
 	clog("video.mp4.txt -> The timestamp file");
-	clog("video.mp4.txt contains some timestamps (in seconds):");
+	clog("video.mp4.txt contains some timestamps:");
 	clog("5, 10.6, 31, 74.3\n\n");
-	clog("Please provide a video file...");
+
+	clog("Timestamps can either be literal second values (i.e., 30.5, 132), or can be formatted as h:m:s (i.e., 0:1:32)");
+	clog("Please provide a video file...", "Error");
 	Deno.exit(1);
 }
 
@@ -90,5 +97,5 @@ const timestamps = timestampFile
 	.replaceAll(" ", "")
 	.split(",")
 	.filter(x => x.length)
-	.map(x => Number(x));
+	.map(x => (x.includes(":") ? x : Number(x)));
 await clipVideo(filePath, timestamps);
