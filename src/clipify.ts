@@ -40,8 +40,14 @@ async function trimMedia(fileName: string, dest: string, start: number | string 
 	const formattedStart = typeof start === "number" ? s2time(start) : start;
 	const formattedEnd = typeof end === "number" ? s2time(end) : end;
 	const regex = /^\d+:\d+:\d+(?:\.\d+)?$/;
-	if (!regex.test(formattedStart)) throw new Error(`${formattedStart} does not match expected format, should be h:m:s`);
-	if (!regex.test(formattedEnd)) throw new Error(`${formattedEnd} does not match expected format, should be h:m:s`);
+	if (!regex.test(formattedStart)) {
+		clog(`${formattedStart} does not match expected format, should be h:m:s`, "Error");
+		Deno.exit(1);
+	}
+	if (!regex.test(formattedEnd)) {
+		clog(`${formattedEnd} does not match expected format, should be h:m:s`, "Error");
+		Deno.exit(1);
+	}
 	clog(`🎬 Trimming ${fileName} from ${formattedStart} to ${formattedEnd}...`, "Log", trimMedia.name);
 	const args = ["-y", "-ss", formattedStart];
 
