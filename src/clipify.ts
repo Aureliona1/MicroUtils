@@ -50,16 +50,45 @@ async function trimMedia(fileName: string, dest: string, start: number | string 
 	}
 	clog(`🎬 Trimming ${fileName} from ${formattedStart} to ${formattedEnd}...`, "Log", trimMedia.name);
 
-	const args = ["-y", "-ss", formattedStart, "-to", formattedEnd, "-i", fileName, "-c:v", "libx264", "-crf", "18", "-preset", "fast", "-c:a", "aac", "-b:a", "192k", dest];
+	const hardwareEncoders = [
+		"h264_nvenc", // NVIDIA
+		"h264_qsv", // Intel
+		"h264_amf", // AMD
+		"h264_videotoolbox" // macOS
+	];
 
-	const proc = makeffmpeg(args);
-	const code = await proc.output();
-	if (code.code) {
-		clog(new TextDecoder().decode(code.stderr), "Error", "ffmpeg");
+	for (const encoder of hardwareEncoders) {
+		const args = ["-y", "-ss", formattedStart, "-to", formattedEnd, "-i", fileName, "-c:v", encoder, "-c:a", "aac", "-b:a", "192k", dest];
+
+		clog(`🎥 Attempting hardware encoding with ${encoder}...`, "Log", trimMedia.name);
+
+		const proc = makeffmpeg(args);
+		const result = await proc.output();
+
+		if (result.code === 0) {
+			clog(`✅ Trimmed successfully using ${encoder}`, "Log", trimMedia.name);
+			return;
+		}
+
+		clog(`⚠️ ${encoder} failed, trying next encoder...`, "Log", trimMedia.name);
+	}
+
+	// All hardware encoders failed.
+	clog(`⚙️ Hardware encoding unavailable. Falling back to software encoding with libx264...`, "Log", trimMedia.name);
+
+	const softwareArgs = ["-y", "-ss", formattedStart, "-to", formattedEnd, "-i", fileName, "-c:v", "libx264", "-preset", "fast", "-crf", "18", "-c:a", "aac", "-b:a", "192k", dest];
+
+	const proc = makeffmpeg(softwareArgs);
+	const result = await proc.output();
+
+	if (result.code !== 0) {
+		clog(new TextDecoder().decode(result.stderr), "Error", "ffmpeg");
+
 		clog(`❌ ffmpeg failed to trim ${fileName} into ${dest}!`, "Error", trimMedia.name);
 		return;
 	}
-	clog(`✅ Trimmed successfully`, "Log", trimMedia.name);
+
+	clog(`✅ Trimmed successfully using software encoding`, "Log", trimMedia.name);
 }
 
 async function clipVideo(
