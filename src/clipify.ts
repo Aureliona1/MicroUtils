@@ -49,28 +49,39 @@ async function trimMedia(fileName: string, dest: string, start: number | string 
 		Deno.exit(1);
 	}
 	clog(`🎬 Trimming ${fileName} from ${formattedStart} to ${formattedEnd}...`, "Log", trimMedia.name);
-
 	const hardwareEncoders = [
-		"h264_nvenc", // NVIDIA
-		"h264_qsv", // Intel
-		"h264_amf", // AMD
-		"h264_videotoolbox" // macOS
+		{
+			name: "h264_nvenc",
+			args: ["-c:v", "h264_nvenc", "-preset", "p5", "-rc", "vbr", "-cq", "18", "-b:v", "0"]
+		},
+		{
+			name: "h264_qsv",
+			args: ["-c:v", "h264_qsv", "-preset", "medium", "-global_quality", "18"]
+		},
+		{
+			name: "h264_amf",
+			args: ["-c:v", "h264_amf", "-quality", "quality", "-rc", "cqp", "-qp_i", "18", "-qp_p", "18"]
+		},
+		{
+			name: "h264_videotoolbox",
+			args: ["-c:v", "h264_videotoolbox", "-q:v", "65"]
+		}
 	];
 
 	for (const encoder of hardwareEncoders) {
-		const args = ["-y", "-ss", formattedStart, "-to", formattedEnd, "-i", fileName, "-c:v", encoder, "-c:a", "aac", "-b:a", "192k", dest];
+		const args = ["-y", "-ss", formattedStart, "-to", formattedEnd, "-i", fileName, ...encoder.args, "-c:a", "aac", "-b:a", "192k", dest];
 
-		clog(`🎥 Attempting hardware encoding with ${encoder}...`, "Log", trimMedia.name);
+		clog(`🎥 Attempting hardware encoding with ${encoder.name}...`, "Log", trimMedia.name);
 
 		const proc = makeffmpeg(args);
 		const result = await proc.output();
 
 		if (result.code === 0) {
-			clog(`✅ Trimmed successfully using ${encoder}`, "Log", trimMedia.name);
+			clog(`✅ Trimmed successfully using ${encoder.name}`, "Log", trimMedia.name);
 			return;
 		}
 
-		clog(`⚠️ ${encoder} failed, trying next encoder...`, "Log", trimMedia.name);
+		clog(`⚠️ ${encoder.name} failed, trying next encoder...`, "Log", trimMedia.name);
 	}
 
 	// All hardware encoders failed.
