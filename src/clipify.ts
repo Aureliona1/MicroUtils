@@ -97,5 +97,5 @@ const timestamps = timestampFile
 	.replaceAll(" ", "")
 	.split(",")
 	.filter(x => x.length)
-	.map(x => (x.includes(":") ? x : Number(x)));
+	.map(x => (x.includes(":") ? x.trim() : Number(x)));
 await clipVideo(filePath, timestamps);
